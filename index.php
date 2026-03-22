@@ -154,7 +154,7 @@
       font-size: clamp(2.4rem, 5vw + 1rem, 4.2rem);
       font-weight: 700;
       font-style: italic;
-      color: var(--text);
+      color: var(--green);
       margin-bottom: 1.25rem;
       line-height: 1.1;
     }
@@ -480,6 +480,15 @@
       margin-right: auto;
     }
 
+    /* ── Alternating timeline backgrounds ─────────────────────── */
+    #timeline .timeline-entry:nth-child(even) {
+      background: var(--bg-alt);
+      margin-left: -2.5rem;
+      margin-right: -2.5rem;
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+
     /* ── Ending Section ────────────────────────────────────────── */
     #ending {
       background: var(--bg-dark);
@@ -529,33 +538,80 @@
       letter-spacing: -0.02em;
     }
 
-    /* ── Footer ────────────────────────────────────────────────── */
-    footer {
-      background: var(--bg-dark);
-      border-top: 1px solid rgba(250,247,242,0.08);
-      padding: 2rem 2.5rem;
+    /* ── Footer — matches Study footer exactly ─────────────────── */
+    #site-footer {
+      background: linear-gradient(180deg, #803300 0%, #5c2a10 35%, #3e1c08 70%, #2a1005 100%);
+      padding: 4rem 4rem 2rem;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 4rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(250,247,242,0.1);
+      max-width: 90rem;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .footer-wordmark {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.75rem;
+      font-weight: 300;
+      color: var(--text-light);
+      letter-spacing: -0.02em;
+    }
+
+    .footer-tagline {
+      font-size: 0.85rem;
+      color: rgba(250,247,242,0.45);
+    }
+
+    .footer-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding-top: 0.25rem;
+    }
+
+    .footer-col-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(250,247,242,0.3);
+      margin-bottom: 0.25rem;
+    }
+
+    .footer-link {
+      font-size: 0.85rem;
+      color: rgba(250,247,242,0.55);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-link:hover { color: var(--text-light); }
+
+    .footer-base {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding-top: 1.5rem;
       flex-wrap: wrap;
       gap: 1rem;
+      max-width: 90rem;
     }
 
-    footer .footer-credit {
+    .footer-copy {
       font-size: 0.78rem;
-      color: var(--text-light);
-      opacity: 0.35;
+      color: rgba(250,247,242,0.3);
     }
-
-    footer a {
-      color: var(--text-light);
-      opacity: 0.45;
-      text-decoration: none;
-      font-size: 0.78rem;
-      transition: opacity 0.2s;
-    }
-
-    footer a:hover { opacity: 0.8; }
 
     /* ── Lightbox ──────────────────────────────────────────────── */
     #lightbox {
@@ -637,7 +693,9 @@
 
       .ending-years { font-size: 3.5rem; }
 
-      footer { flex-direction: column; text-align: center; }
+      #site-footer { padding: 3rem 1.25rem 1.5rem; }
+
+      .footer-inner { grid-template-columns: 1fr; gap: 2.5rem; }
     }
   </style>
 </head>
@@ -973,10 +1031,35 @@
     </div>
   </section>
 
-  <!-- ── Footer ────────────────────────────────────────────────── -->
-  <footer>
-    <span class="footer-credit">A project by Toby Ziegler · CoxHealth Printing Services · 2002–2013</span>
-    <a href="https://tobyziegler.com">tobyziegler.com ↗</a>
+  <!-- ── Footer — Study style ────────────────────────────────── -->
+  <footer id="site-footer">
+    <div class="footer-inner">
+
+      <div class="footer-left">
+        <span class="footer-wordmark">Toby Ziegler</span>
+        <span class="footer-tagline">Designer. Builder. Student of the craft.</span>
+      </div>
+
+      <div class="footer-col">
+        <span class="footer-col-label">This project</span>
+        <a href="#hero" class="footer-link">The Checks</a>
+        <a href="#origin" class="footer-link">The Origin</a>
+        <a href="#timeline" class="footer-link">The Chronicle</a>
+      </div>
+
+      <div class="footer-col">
+        <span class="footer-col-label">Other rooms</span>
+        <a href="https://tobyziegler.com" class="footer-link">Toby's Study</a>
+        <a href="https://dadabase.tobyziegler.com" target="_blank" rel="noopener" class="footer-link">Dad-a-Base</a>
+        <a href="https://resume.tobyziegler.com" target="_blank" rel="noopener" class="footer-link">The Résumé</a>
+      </div>
+
+    </div>
+
+    <div class="footer-base">
+      <span class="footer-copy">&copy; <span id="footer-year"></span> Toby Ziegler. Made with care and Claude.</span>
+      <a href="https://github.com/TobyZiegler/tobyzieglerdotcom" target="_blank" rel="noopener" class="footer-link">Source on GitHub</a>
+    </div>
   </footer>
 
   <!-- ── Lightbox ──────────────────────────────────────────────── -->
@@ -987,6 +1070,10 @@
 
   <!-- ── Scripts ───────────────────────────────────────────────── -->
   <script>
+    // Footer year
+    const yearEl = document.getElementById('footer-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
     // Nav scroll behavior
     const nav = document.getElementById('site-nav');
     window.addEventListener('scroll', () => {
