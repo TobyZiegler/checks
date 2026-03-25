@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Children of the Checks — Toby Ziegler</title>
-  <meta name="description" content="A decade of display checks for the Children's Miracle Network telethon — designed, printed, and iterated in-house at CoxHealth from 2002 to 2013.">
+  <meta name="description" content="A decade of display checks for the Children's Miracle Network telethon — designed, printed, and iterated in-house from 2002 to 2013.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
@@ -710,9 +710,9 @@
   <!-- ── Hero ────────────────────────────────────────────────── -->
   <section id="hero">
     <div class="hero-tag">
-      <span>CoxHealth · Children's Miracle Network</span>
+      <span>Children's Miracle Network</span>
     </div>
-    <h1>The Children<br>of the Checks</h1>
+    <h1>The Children of the Checks</h1>
     <p class="hero-subtitle">A decade of display checks for the CMN telethon — designed, printed, and iterated in-house from two yellow sheets taped together to something worth keeping.</p>
     <div class="hero-meta">
       <div class="meta-item">
@@ -728,8 +728,8 @@
         <span class="meta-value">~85%</span>
       </div>
       <div class="meta-item">
-        <span class="meta-label">Organization</span>
-        <span class="meta-value">CoxHealth Printing Services</span>
+        <span class="meta-label">Heartfelt Thanks</span>
+        <span class="meta-value">Incalculable</span>
       </div>
     </div>
   </section>
@@ -742,8 +742,8 @@
         <h2>Two yellow sheets,<br>taped together.</h2>
       </div>
       <div class="origin-body">
-        <p>After about a year at CoxHealth, a representative from Children's Miracle Network came to printing services needing more telethon checks printed for the upcoming broadcast. They were referred to me as the designer on staff.</p>
-        <p>The sample they brought gave me a double-take scratch-stop. It was two yellow sheets of paper taped together with some printing which resembled a check in only the vaguest sense. Apparently this was what they'd been using for years to present donations from area organizations to CMN on television.</p>
+        <p>After about a year on the new job, a representative from Children's Miracle Network came to printing services needing more telethon checks printed for the upcoming broadcast. They were referred to me as the designer on staff.</p>
+        <p>The sample they brought gave me a double-take. It was two yellow sheets of paper taped together with some printing which resembled a check in only the vaguest sense. Apparently this was what they'd been using for years to present donations from area organizations to CMN on television.</p>
         <p>I was appalled.</p>
 
         <div class="before-artifact">
@@ -751,7 +751,7 @@
           <span class="artifact-sub">Two sheets of yellow paper, taped together. No image survives — and none was worth keeping.</span>
         </div>
 
-        <p>We had about a month. I negotiated access to the engineering department's large-format plotter in exchange for replacement ink cartridges, designed a realistic display check sized to cut cleanly on our 32-inch guillotine cutter, shot a photo of a blue sky with fluffy clouds for the background, and embedded the CMN phone number in the routing field. Fifty checks, printed in full color, mounted on pasteboard for rigidity.</p>
+        <p>We had about a month and a half. I negotiated access to the engineering department's large-format plotter in exchange for replacement ink cartridges, designed a realistic display check sized to cut cleanly on our 32-inch guillotine cutter, shot a photo of a blue sky with fluffy clouds for the background, and embedded the CMN phone number in the routing field. Fifty checks, printed in full color, mounted on pasteboard for rigidity.</p>
         <p>They were a hit.</p>
 
         <div class="cost-callout">
@@ -998,7 +998,7 @@
       <div class="entry-content">
         <div class="entry-name">Back to clouds.</div>
         <div class="entry-note warning-note">The children are gone</div>
-        <p class="entry-story">New management objected. Too much lightness, they said. The cameras took a moment to adjust their white-point compensation on the sky. The checks moved back to clouds only.</p>
+        <p class="entry-story">The auto-focus saw the children as people, throwing cameras and timing off. The checks moved back to clouds only. The cameras took a moment to adjust their white-point compensation on the sky. The clouds were doomed.</p>
         <p class="entry-story">Mild protests and inquiries were met with certain answers: the children were no longer to be a feature of the checks.</p>
       </div>
     </div>
@@ -1015,7 +1015,7 @@
       <div class="entry-content">
         <div class="entry-name">Plain blue.</div>
         <div class="entry-note ending-note">The final check</div>
-        <p class="entry-story">Plain blue. No children, no sky, no stories in the memo field. A few years after this, they stopped asking for checks at all.</p>
+        <p class="entry-story">Plain blue. No children, no sky, no stories in the memo field. The need for checks has changed, so we haven't printed a resupply in years. Perhaps we never will. Even the plain blue check will be missed.</p>
       </div>
     </div>
 
@@ -1026,8 +1026,8 @@
     <div class="ending-inner">
       <div class="ending-years">2002–2013</div>
       <div class="ending-rule"></div>
-      <h2>Thus ended the era of<br>the Children of the Checks.</h2>
-      <p>The work outlasted the organizational will to sustain it. That's a different thing than failure.</p>
+      <h2>Thus ended the era of the Children of the Checks.</h2>
+      <p>The work outlasted the organizational will to sustain it.</p>
     </div>
   </section>
 
