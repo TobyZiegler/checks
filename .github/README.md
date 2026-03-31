@@ -1,1 +1,1 @@
-../README-checks.md
+README-checks.md
