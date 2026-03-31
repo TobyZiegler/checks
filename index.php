@@ -504,7 +504,7 @@
       font-weight: 700;
       font-style: italic;
       color: var(--text);
-      opacity: 0.05;
+      opacity: 0.15;
       line-height: 1;
       margin-bottom: 1rem;
       letter-spacing: -0.02em;
@@ -544,37 +544,34 @@
      * comes from the caption/controls area below. */
     #check-slideshow {
       background: var(--bg-alt);
-      padding: 0;
+      padding-top: 2.5rem;
+      padding-bottom: 0;
       border-top: 1px solid var(--rule);
       overflow: hidden;   /* clips the entering/exiting images at viewport edge */
       position: relative;
     }
 
-    .slideshow-label {
-      font-family: var(--font-body);
-      font-size: var(--text-xs);
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      opacity: 0.7;
-      text-align: center;
-      padding: 2.5rem var(--pad-page) 1.5rem;
-    }
+    /* .slideshow-label removed — caption below the image is sufficient */
 
     .slideshow-stage {
       width: 100%;
       position: relative;
     }
 
-    /* The wrap is now just a frame — section does the clipping */
+    /* .slideshow-img-wrap constrains checks to card size, centered.
+     * The stage remains full-width so the animation travels from the
+     * page edge — the check slides across the parchment background
+     * and lands in the center. */
     .slideshow-img-wrap {
-      width: 100%;
-      box-shadow: none;   /* no shadow needed at full-bleed */
+      max-width: 36rem;
+      margin: 0 auto;
+      box-shadow: var(--shadow-lift);
+      border-radius: 0.4rem;
       position: relative;
+      overflow: hidden;
     }
 
-    /* Both image slots fill the full stage width */
+    /* Both slots fill the wrap */
     .slideshow-img-wrap img {
       display: block;
       width: 100%;
@@ -1189,7 +1186,6 @@
 
   <!-- ── Check Slideshow ───────────────────────────────────────── -->
   <section id="check-slideshow">
-    <div class="slideshow-label">The complete collection</div>
     <div class="slideshow-stage">
       <div class="slideshow-img-wrap" id="slideshow-wrap">
         <img id="slideshow-current" class="slide-current" src="" alt="">
@@ -1292,19 +1288,19 @@
     // lazy-load as the visitor scrolled through above.
 
     var slides = [
-      { src: 'images/card/check-cloudscape1-card.jpg',     caption: 'The Cloudscape, 2002' },
-      { src: 'images/card/check-cole1-card.jpg',           caption: 'Cole, 2004' },
-      { src: 'images/card/check-cole2-card.jpg',           caption: 'Cole, revisited, 2005' },
-      { src: 'images/card/check-lauren-card.jpg',          caption: 'Lauren, 2006' },
-      { src: 'images/card/check-blake-card.jpg',           caption: 'Blake, 2006' },
-      { src: 'images/card/check-danielle-card.jpg',        caption: 'Danielle, 2007' },
-      { src: 'images/card/check-megan-card.jpg',           caption: 'Megan, 2008' },
-      { src: 'images/card/check-jodelynscottlyn-card.jpg', caption: 'Jodelyn & Scotlyn, 2008' },
-      { src: 'images/card/check-jackson-card.jpg',         caption: 'Jackson, 2009' },
-      { src: 'images/card/check-brooke-card.jpg',          caption: 'Brooke, 2010' },
-      { src: 'images/card/check-kadie-card.jpg',           caption: 'Kadie, 2011' },
-      { src: 'images/card/check-cloudscape2-card.jpg',     caption: 'Back to clouds, 2012' },
-      { src: 'images/card/check-blueonly-card.jpg',        caption: 'Plain blue — the final check, 2013' }
+      { src: 'images/card/check-cloudscape1-card.jpg',     caption: 'The Cloudscape, 2002',        alt: 'CMN display check, 2002' },
+      { src: 'images/card/check-cole1-card.jpg',           caption: 'Cole, 2004',                  alt: 'CMN display check featuring Cole, 2004' },
+      { src: 'images/card/check-cole2-card.jpg',           caption: 'Cole, revisited, 2005',        alt: 'CMN display check featuring Cole, 2005' },
+      { src: 'images/card/check-lauren-card.jpg',          caption: 'Lauren, 2006',                 alt: 'CMN display check featuring Lauren, 2006' },
+      { src: 'images/card/check-blake-card.jpg',           caption: 'Blake, 2006',                  alt: 'CMN display check featuring Blake, 2006' },
+      { src: 'images/card/check-danielle-card.jpg',        caption: 'Danielle, 2007',               alt: 'CMN display check featuring Danielle, 2007' },
+      { src: 'images/card/check-megan-card.jpg',           caption: 'Megan, 2008',                  alt: 'CMN display check featuring Megan, 2008' },
+      { src: 'images/card/check-jodelynscottlyn-card.jpg', caption: 'Jodelyn & Scotlyn, 2008',      alt: 'CMN display check featuring Jodelyn and Scotlyn, 2008' },
+      { src: 'images/card/check-jackson-card.jpg',         caption: 'Jackson, 2009',                alt: 'CMN display check featuring Jackson, 2009' },
+      { src: 'images/card/check-brooke-card.jpg',          caption: 'Brooke, 2010',                 alt: 'CMN display check featuring Brooke, 2010' },
+      { src: 'images/card/check-kadie-card.jpg',           caption: 'Kadie, 2011',                  alt: 'CMN display check featuring Kadie, 2011' },
+      { src: 'images/card/check-cloudscape2-card.jpg',     caption: 'Back to clouds, 2012',         alt: 'CMN display check, clouds only, 2012' },
+      { src: 'images/card/check-blueonly-card.jpg',        caption: 'Plain blue — the final check, 2013', alt: 'CMN display check, plain blue, 2013' }
     ];
 
     var SLIDE_DURATION = 3000;   /* ms — CSS animation duration (must match slideOutLeft/slideInRight) */
@@ -1354,7 +1350,7 @@
         // First load — no animation, just set the image
         current = next;
         imgCurrent.src = slides[current].src;
-        imgCurrent.alt = slides[current].caption;
+        imgCurrent.alt = slides[current].alt;
         imgIncoming.src = '';
         slideCaption.textContent = slides[current].caption;
         dots[current].classList.add('active');
@@ -1365,9 +1361,9 @@
       animating = true;
       lockHeight();
 
-      // Load incoming image into the second slot
+      // Load incoming image into the second slot (aria-hidden; alt not needed)
       imgIncoming.src = slides[next].src;
-      imgIncoming.alt = slides[next].caption;
+      imgIncoming.alt = '';
       imgIncoming.removeAttribute('aria-hidden');
 
       // Fire both animations simultaneously
@@ -1381,7 +1377,7 @@
       setTimeout(function() {
         // Promote incoming to current
         imgCurrent.src = slides[next].src;
-        imgCurrent.alt = slides[next].caption;
+        imgCurrent.alt = slides[next].alt;
         imgCurrent.classList.remove('is-exiting');
         imgIncoming.classList.remove('is-entering');
         imgIncoming.src = '';
