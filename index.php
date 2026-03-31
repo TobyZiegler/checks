@@ -46,7 +46,7 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      padding: 1rem 2.5rem;
+      padding: 1rem var(--pad-page);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -95,9 +95,7 @@
 
     /* ── Hero ────────────────────────────────────────────────── */
     #hero {
-      padding: 9rem 2.5rem 5rem;
-      max-width: 52rem;
-      margin: 0 auto;
+      padding: 9rem var(--pad-page) 5rem;
       position: relative;
     }
 
@@ -176,11 +174,11 @@
     /* ── Origin Story ────────────────────────────────────────── */
     #origin {
       background: var(--bg-alt);
-      padding: 5rem 2.5rem;
+      padding: 5rem var(--pad-page);
     }
 
     .origin-inner {
-      max-width: 52rem;
+      max-width: 72rem;
       margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr 2fr;
@@ -303,9 +301,7 @@
 
     /* ── Timeline ────────────────────────────────────────────── */
     #timeline {
-      padding: 6rem 2.5rem;
-      max-width: 64rem;
-      margin: 0 auto;
+      padding: 6rem var(--pad-page);
     }
 
     .timeline-header {
@@ -453,13 +449,13 @@
     }
 
     /* Alternating full-bleed bands via negative margins.
-     * Negative values match the parent horizontal padding (2.5rem). */
+     * Negative values must match the parent horizontal padding (var(--pad-page)). */
     #timeline .timeline-entry:nth-child(even) {
       background: var(--bg-alt);
-      margin-left: -2.5rem;
-      margin-right: -2.5rem;
-      padding-left: 2.5rem;
-      padding-right: 2.5rem;
+      margin-left: calc(-1 * var(--pad-page));
+      margin-right: calc(-1 * var(--pad-page));
+      padding-left: var(--pad-page);
+      padding-right: var(--pad-page);
     }
 
 
@@ -472,7 +468,7 @@
      * ────────────────────────────────────────────────────────── */
     #ending {
       background: var(--bg);
-      padding: 6rem 2.5rem 4rem;
+      padding: 6rem var(--pad-page) 4rem;
       text-align: center;
       position: relative;
       border-top: 1px solid var(--rule);
@@ -543,7 +539,7 @@
      * ────────────────────────────────────────────────────────── */
     #check-slideshow {
       background: var(--bg-alt);
-      padding: 4rem 2.5rem;
+      padding: 4rem var(--pad-page);
       text-align: center;
       border-top: 1px solid var(--rule);
     }
@@ -564,21 +560,60 @@
       margin: 0 auto;
     }
 
+    /* .slideshow-img-wrap is the clipping boundary.
+     * overflow: hidden keeps entering/exiting images inside the frame.
+     * Height is locked by JS on init so the frame doesn't collapse
+     * while the incoming image is absolutely positioned. */
     .slideshow-img-wrap {
       border-radius: 0.4rem;
       overflow: hidden;
       box-shadow: var(--shadow-lift);
+      position: relative;
     }
 
+    /* Base image rule — both slots share these */
     .slideshow-img-wrap img {
       display: block;
       width: 100%;
       height: auto;
-      transition: opacity 0.4s ease;
     }
 
-    .slideshow-img-wrap img.fade-out { opacity: 0; }
+    /* .slide-current holds the frame height (position: relative).
+     * .slide-incoming overlays it (position: absolute) until the
+     * animation completes and it becomes the new current. */
+    .slideshow-img-wrap img.slide-current {
+      position: relative;
+    }
 
+    .slideshow-img-wrap img.slide-incoming {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Slide-out: current check exits left over 3s */
+    @keyframes slideOutLeft {
+      from { transform: translateX(0);     opacity: 1; }
+      to   { transform: translateX(-100%); opacity: 0.6; }
+    }
+
+    /* Slide-in: incoming check enters from right over 3s */
+    @keyframes slideInRight {
+      from { transform: translateX(100%);  opacity: 0.6; }
+      to   { transform: translateX(0);     opacity: 1; }
+    }
+
+    .slideshow-img-wrap img.is-exiting {
+      animation: slideOutLeft 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .slideshow-img-wrap img.is-entering {
+      animation: slideInRight 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    /* Caption fades — sliding it would be distracting */
     .slideshow-caption {
       margin-top: 1.25rem;
       font-family: var(--font-display);
@@ -587,7 +622,7 @@
       font-weight: 400;
       color: var(--text-muted);
       min-height: 1.8rem;
-      transition: opacity 0.25s ease;
+      transition: opacity 0.4s ease;
     }
 
     .slideshow-caption.fade-out { opacity: 0; }
@@ -779,13 +814,15 @@
 
     /* ── Responsive ──────────────────────────────────────────── */
     @media (max-width: 768px) {
-      #site-nav         { padding: 0.75rem 1.25rem; }
-      #hero             { padding: 7rem 1.25rem 3.5rem; }
-      #origin           { padding: 3.5rem 1.25rem; }
-      #timeline         { padding: 4rem 1.25rem; }
-      #ending           { padding: 4rem 1.25rem 3rem; }
-      #check-slideshow  { padding: 3rem 1.25rem; }
-      #site-footer      { padding: 3rem 1.25rem 1.5rem; }
+      /* --pad-page's max() handles horizontal padding at all widths.
+       * These overrides only adjust vertical padding at narrow screens. */
+      #site-nav         { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+      #hero             { padding-top: 7rem; padding-bottom: 3.5rem; }
+      #origin           { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+      #timeline         { padding-top: 4rem; padding-bottom: 4rem; }
+      #ending           { padding-top: 4rem; padding-bottom: 3rem; }
+      #check-slideshow  { padding-top: 3rem; padding-bottom: 3rem; }
+      #site-footer      { padding-top: 3rem; padding-bottom: 1.5rem; }
 
       .origin-inner     { grid-template-columns: 1fr; gap: 2rem; }
       .origin-label     { position: static; }
@@ -803,10 +840,10 @@
 
       /* Reset alternating negative margins on narrow screens */
       #timeline .timeline-entry:nth-child(even) {
-        margin-left: -1.25rem;
-        margin-right: -1.25rem;
-        padding-left: 1.25rem;
-        padding-right: 1.25rem;
+        margin-left: calc(-1 * var(--pad-page));
+        margin-right: calc(-1 * var(--pad-page));
+        padding-left: var(--pad-page);
+        padding-right: var(--pad-page);
       }
     }
   </style>
@@ -1147,8 +1184,9 @@
   <section id="check-slideshow">
     <div class="slideshow-label">The complete collection</div>
     <div class="slideshow-stage">
-      <div class="slideshow-img-wrap">
-        <img id="slideshow-img" src="" alt="">
+      <div class="slideshow-img-wrap" id="slideshow-wrap">
+        <img id="slideshow-current" class="slide-current" src="" alt="">
+        <img id="slideshow-incoming" class="slide-incoming" src="" alt="" aria-hidden="true">
       </div>
       <div class="slideshow-caption" id="slideshow-caption"></div>
       <div class="slideshow-controls">
@@ -1237,91 +1275,153 @@
     });
 
     // ── Check Slideshow ──────────────────────────────────────────
-    // Chronological order. Card images are already warm in browser
-    // cache from the timeline lazy-load above.
+    //
+    // Timing: 3s slide-in | 8s dwell | 3s slide-out (14s total cycle).
+    // Two image slots: #slideshow-current (visible) and
+    // #slideshow-incoming (animates in from right simultaneously as
+    // current animates out left). After 3s the incoming becomes current.
+    //
+    // Card images are already warm in browser cache from the timeline
+    // lazy-load as the visitor scrolled through above.
+
     var slides = [
-      { src: 'images/card/check-cloudscape1-card.jpg',    caption: 'The Cloudscape, 2002' },
-      { src: 'images/card/check-cole1-card.jpg',          caption: 'Cole, 2004' },
-      { src: 'images/card/check-cole2-card.jpg',          caption: 'Cole, revisited, 2005' },
-      { src: 'images/card/check-lauren-card.jpg',         caption: 'Lauren, 2006' },
-      { src: 'images/card/check-blake-card.jpg',          caption: 'Blake, 2006' },
-      { src: 'images/card/check-danielle-card.jpg',       caption: 'Danielle, 2007' },
-      { src: 'images/card/check-megan-card.jpg',          caption: 'Megan, 2008' },
-      { src: 'images/card/check-jodelynscottlyn-card.jpg',caption: 'Jodelyn & Scotlyn, 2008' },
-      { src: 'images/card/check-jackson-card.jpg',        caption: 'Jackson, 2009' },
-      { src: 'images/card/check-brooke-card.jpg',         caption: 'Brooke, 2010' },
-      { src: 'images/card/check-kadie-card.jpg',          caption: 'Kadie, 2011' },
-      { src: 'images/card/check-cloudscape2-card.jpg',    caption: 'Back to clouds, 2012' },
-      { src: 'images/card/check-blueonly-card.jpg',       caption: 'Plain blue \u2014 the final check, 2013' }
+      { src: 'images/card/check-cloudscape1-card.jpg',     caption: 'The Cloudscape, 2002' },
+      { src: 'images/card/check-cole1-card.jpg',           caption: 'Cole, 2004' },
+      { src: 'images/card/check-cole2-card.jpg',           caption: 'Cole, revisited, 2005' },
+      { src: 'images/card/check-lauren-card.jpg',          caption: 'Lauren, 2006' },
+      { src: 'images/card/check-blake-card.jpg',           caption: 'Blake, 2006' },
+      { src: 'images/card/check-danielle-card.jpg',        caption: 'Danielle, 2007' },
+      { src: 'images/card/check-megan-card.jpg',           caption: 'Megan, 2008' },
+      { src: 'images/card/check-jodelynscottlyn-card.jpg', caption: 'Jodelyn & Scotlyn, 2008' },
+      { src: 'images/card/check-jackson-card.jpg',         caption: 'Jackson, 2009' },
+      { src: 'images/card/check-brooke-card.jpg',          caption: 'Brooke, 2010' },
+      { src: 'images/card/check-kadie-card.jpg',           caption: 'Kadie, 2011' },
+      { src: 'images/card/check-cloudscape2-card.jpg',     caption: 'Back to clouds, 2012' },
+      { src: 'images/card/check-blueonly-card.jpg',        caption: 'Plain blue — the final check, 2013' }
     ];
 
-    var current       = 0;
-    var autoTimer     = null;
-    var AUTO_INTERVAL = 4000;   /* ms between auto-advances */
+    var SLIDE_DURATION = 3000;   /* ms — CSS animation duration (must match slideOutLeft/slideInRight) */
+    var DWELL_DURATION = 8000;   /* ms — how long each check is fully visible */
+    var CYCLE          = SLIDE_DURATION + DWELL_DURATION;   /* 11000ms total before exit begins */
 
-    var slideImg     = document.getElementById('slideshow-img');
+    var current     = 0;
+    var autoTimer   = null;
+    var animating   = false;   /* guard: ignore nav during active transition */
+
+    var imgCurrent  = document.getElementById('slideshow-current');
+    var imgIncoming = document.getElementById('slideshow-incoming');
     var slideCaption = document.getElementById('slideshow-caption');
-    var dotsWrap     = document.getElementById('slideshow-dots');
-    var btnPrev      = document.getElementById('slide-prev');
-    var btnNext      = document.getElementById('slide-next');
+    var dotsWrap    = document.getElementById('slideshow-dots');
+    var wrap        = document.getElementById('slideshow-wrap');
+    var btnPrev     = document.getElementById('slide-prev');
+    var btnNext     = document.getElementById('slide-next');
 
     // Build dot indicators
     slides.forEach(function(_, i) {
       var dot = document.createElement('button');
       dot.className = 'slideshow-dot' + (i === 0 ? ' active' : '');
       dot.setAttribute('aria-label', 'Go to check ' + (i + 1));
-      dot.addEventListener('click', function() { goTo(i); resetTimer(); });
+      dot.addEventListener('click', function() { if (!animating) { goTo(i); resetTimer(); } });
       dotsWrap.appendChild(dot);
     });
 
     function getDots() { return dotsWrap.querySelectorAll('.slideshow-dot'); }
 
+    // Lock the wrap height to prevent collapse during absolute positioning
+    function lockHeight() {
+      wrap.style.height = wrap.offsetHeight + 'px';
+    }
+
+    function unlockHeight() {
+      wrap.style.height = '';
+    }
+
     function goTo(index, instant) {
+      if (animating && !instant) return;
+
       var dots = getDots();
       dots[current].classList.remove('active');
-      current = (index + slides.length) % slides.length;
+      var next = (index + slides.length) % slides.length;
 
       if (instant) {
-        slideImg.src            = slides[current].src;
-        slideImg.alt            = slides[current].caption;
+        // First load — no animation, just set the image
+        current = next;
+        imgCurrent.src = slides[current].src;
+        imgCurrent.alt = slides[current].caption;
+        imgIncoming.src = '';
         slideCaption.textContent = slides[current].caption;
-      } else {
-        slideImg.classList.add('fade-out');
-        slideCaption.classList.add('fade-out');
-        setTimeout(function() {
-          slideImg.src             = slides[current].src;
-          slideImg.alt             = slides[current].caption;
-          slideCaption.textContent = slides[current].caption;
-          slideImg.classList.remove('fade-out');
-          slideCaption.classList.remove('fade-out');
-        }, 300);
+        dots[current].classList.add('active');
+        return;
       }
 
-      dots[current].classList.add('active');
+      // Begin animated transition
+      animating = true;
+      lockHeight();
+
+      // Load incoming image into the second slot
+      imgIncoming.src = slides[next].src;
+      imgIncoming.alt = slides[next].caption;
+      imgIncoming.removeAttribute('aria-hidden');
+
+      // Fire both animations simultaneously
+      imgCurrent.classList.add('is-exiting');
+      imgIncoming.classList.add('is-entering');
+
+      // Fade caption out at start of transition
+      slideCaption.classList.add('fade-out');
+
+      // After slide duration: swap slots, update caption, clean up
+      setTimeout(function() {
+        // Promote incoming to current
+        imgCurrent.src = slides[next].src;
+        imgCurrent.alt = slides[next].caption;
+        imgCurrent.classList.remove('is-exiting');
+        imgIncoming.classList.remove('is-entering');
+        imgIncoming.src = '';
+        imgIncoming.setAttribute('aria-hidden', 'true');
+
+        current = next;
+        dots[current].classList.add('active');
+
+        // Fade caption in with new text
+        slideCaption.textContent = slides[current].caption;
+        slideCaption.classList.remove('fade-out');
+
+        unlockHeight();
+        animating = false;
+      }, SLIDE_DURATION);
     }
 
     function startTimer() {
-      autoTimer = setInterval(function() { goTo(current + 1); }, AUTO_INTERVAL);
+      // Wait for dwell, then trigger exit (exit takes SLIDE_DURATION,
+      // so next slide's enter begins at CYCLE ms after the last enter)
+      autoTimer = setInterval(function() {
+        goTo(current + 1);
+      }, CYCLE);
     }
 
-    function resetTimer() { clearInterval(autoTimer); startTimer(); }
+    function resetTimer() {
+      clearInterval(autoTimer);
+      startTimer();
+    }
 
-    // Pause auto-advance on hover
+    // Pause on hover
     var stage = document.querySelector('.slideshow-stage');
     stage.addEventListener('mouseenter', function() { clearInterval(autoTimer); });
-    stage.addEventListener('mouseleave', startTimer);
+    stage.addEventListener('mouseleave', function() { if (!animating) startTimer(); });
 
-    btnPrev.addEventListener('click', function() { goTo(current - 1); resetTimer(); });
-    btnNext.addEventListener('click', function() { goTo(current + 1); resetTimer(); });
+    btnPrev.addEventListener('click', function() { if (!animating) { goTo(current - 1); resetTimer(); } });
+    btnNext.addEventListener('click', function() { if (!animating) { goTo(current + 1); resetTimer(); } });
 
     // Arrow key nav — only when lightbox is closed
     document.addEventListener('keydown', function(e) {
       if (lightbox.classList.contains('open')) return;
+      if (animating) return;
       if (e.key === 'ArrowLeft')  { goTo(current - 1); resetTimer(); }
       if (e.key === 'ArrowRight') { goTo(current + 1); resetTimer(); }
     });
 
-    // Initialize
+    // Initialize — instant load, then start auto-advance
     goTo(0, true);
     startTimer();
   </script>
