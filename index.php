@@ -97,11 +97,20 @@
     #hero {
       padding: 9rem var(--pad-page) 5rem;
       position: relative;
+      text-align: center;
+    }
+
+    /* Inner column keeps the hero from running wall-to-wall on very
+     * wide displays while the section itself remains full-width */
+    .hero-inner {
+      max-width: 52rem;
+      margin: 0 auto;
     }
 
     .hero-tag {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 0.75rem;
       margin-bottom: 1.5rem;
     }
@@ -115,13 +124,8 @@
       color: var(--burg);
     }
 
-    .hero-tag::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--burg);
-      opacity: 0.4;
-    }
+    /* No extending rule when centered — the tag stands alone */
+    .hero-tag::after { display: none; }
 
     /* h1 green color — project pages per design system */
     #hero h1 {
@@ -137,7 +141,6 @@
       font-size: var(--text-body);
       color: var(--text-muted);
       font-weight: 300;
-      max-width: 36rem;
       line-height: 1.6;
       margin-bottom: 2rem;
     }
@@ -146,6 +149,7 @@
       display: flex;
       gap: 2rem;
       flex-wrap: wrap;
+      justify-content: center;
     }
 
     .meta-item {
@@ -181,7 +185,7 @@
       max-width: 72rem;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr 2fr;
+      grid-template-columns: minmax(0, 14rem) 1fr;   /* label column capped; body gets the rest */
       gap: 4rem;
       align-items: start;
     }
@@ -361,27 +365,22 @@
       position: absolute;
       top: -0.9rem;
       left: 1rem;
-      background: var(--bg);
-      border: 1.5px solid var(--rule);
+      background: #C8102E;   /* CMN red */
+      border: 1.5px solid #C8102E;
       border-radius: 2rem;
       padding: 0.2rem 0.75rem;
       font-family: var(--font-display);
       font-size: var(--text-sm);
       font-weight: 700;
-      color: var(--text-muted);
+      color: white;
       letter-spacing: 0.03em;
     }
 
-    .timeline-entry.milestone .entry-year {
-      background: var(--green);
-      border-color: var(--green);
-      color: white;
-    }
-
+    /* Milestone and ending entries use the same CMN red —
+     * the label text (.entry-note) distinguishes the tone */
     .timeline-entry.ending .entry-year {
       background: var(--text-muted);
       border-color: var(--text-muted);
-      color: white;
     }
 
     .entry-content  { padding-top: 0.5rem; }
@@ -487,7 +486,7 @@
     }
 
     .ending-inner {
-      max-width: 36rem;
+      max-width: 64rem;   /* generous cap — the h2 sentence should never wrap */
       margin: 0 auto;
     }
 
@@ -513,13 +512,15 @@
       user-select: none;
     }
 
-    /* h2 override — weight 300 italic; the sentence is the drama */
+    /* h2 override — weight 300 italic; the sentence is the drama.
+     * white-space: nowrap removed — the 64rem container and large
+     * clamp floor should keep it on one line at all reasonable widths. */
     #ending h2 {
-      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
       font-style: italic;
       font-weight: 300;
       color: var(--text);
-      line-height: 1.4;
+      line-height: 1.3;
       margin-bottom: 1.5rem;
     }
 
@@ -537,11 +538,16 @@
      * Uses card-size images — already in browser cache from
      * the timeline lazy-load as the visitor scrolled through.
      * ────────────────────────────────────────────────────────── */
+    /* #check-slideshow is the clipping boundary for the slide animation.
+     * overflow: hidden here lets images enter from the actual page edge.
+     * padding: 0 on top so the image runs edge-to-edge; vertical space
+     * comes from the caption/controls area below. */
     #check-slideshow {
       background: var(--bg-alt);
-      padding: 4rem var(--pad-page);
-      text-align: center;
+      padding: 0;
       border-top: 1px solid var(--rule);
+      overflow: hidden;   /* clips the entering/exiting images at viewport edge */
+      position: relative;
     }
 
     .slideshow-label {
@@ -551,40 +557,36 @@
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--text-muted);
-      margin-bottom: 2rem;
       opacity: 0.7;
+      text-align: center;
+      padding: 2.5rem var(--pad-page) 1.5rem;
     }
 
     .slideshow-stage {
-      max-width: 36rem;
-      margin: 0 auto;
-    }
-
-    /* .slideshow-img-wrap is the clipping boundary.
-     * overflow: hidden keeps entering/exiting images inside the frame.
-     * Height is locked by JS on init so the frame doesn't collapse
-     * while the incoming image is absolutely positioned. */
-    .slideshow-img-wrap {
-      border-radius: 0.4rem;
-      overflow: hidden;
-      box-shadow: var(--shadow-lift);
+      width: 100%;
       position: relative;
     }
 
-    /* Base image rule — both slots share these */
+    /* The wrap is now just a frame — section does the clipping */
+    .slideshow-img-wrap {
+      width: 100%;
+      box-shadow: none;   /* no shadow needed at full-bleed */
+      position: relative;
+    }
+
+    /* Both image slots fill the full stage width */
     .slideshow-img-wrap img {
       display: block;
       width: 100%;
       height: auto;
     }
 
-    /* .slide-current holds the frame height (position: relative).
-     * .slide-incoming overlays it (position: absolute) until the
-     * animation completes and it becomes the new current. */
+    /* .slide-current holds document flow height */
     .slideshow-img-wrap img.slide-current {
       position: relative;
     }
 
+    /* .slide-incoming overlays from off-screen right */
     .slideshow-img-wrap img.slide-incoming {
       position: absolute;
       top: 0; left: 0;
@@ -613,7 +615,7 @@
       animation: slideInRight 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
 
-    /* Caption fades — sliding it would be distracting */
+    /* Caption and controls sit below the full-bleed image */
     .slideshow-caption {
       margin-top: 1.25rem;
       font-family: var(--font-display);
@@ -623,6 +625,8 @@
       color: var(--text-muted);
       min-height: 1.8rem;
       transition: opacity 0.4s ease;
+      text-align: center;
+      padding: 0 var(--pad-page);
     }
 
     .slideshow-caption.fade-out { opacity: 0; }
@@ -633,6 +637,7 @@
       justify-content: center;
       gap: 1.5rem;
       margin-top: 1.5rem;
+      padding: 0 var(--pad-page) 2.5rem;
     }
 
     .slideshow-btn {
@@ -858,27 +863,29 @@
 
   <!-- ── Hero ────────────────────────────────────────────────── -->
   <section id="hero">
-    <div class="hero-tag">
-      <span>Children&#8217;s Miracle Network</span>
-    </div>
-    <h1>The Children of the Checks</h1>
-    <p class="hero-subtitle">A decade of display checks for the CMN telethon &#8212; designed, printed, and iterated in-house from two yellow sheets taped together to something worth keeping.</p>
-    <div class="hero-meta">
-      <div class="meta-item">
-        <span class="meta-label">Years active</span>
-        <span class="meta-value">2002 &#8211; 2013</span>
+    <div class="hero-inner">
+      <div class="hero-tag">
+        <span>Children&#8217;s Miracle Network</span>
       </div>
-      <div class="meta-item">
-        <span class="meta-label">Children featured</span>
-        <span class="meta-value">10</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-label">Cost reduction</span>
-        <span class="meta-value">~85%</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-label">Heartfelt Thanks</span>
-        <span class="meta-value">Incalculable</span>
+      <h1>The Children of the Checks</h1>
+      <p class="hero-subtitle">A decade of display checks for the CMN telethon &#8212; designed, printed, and iterated in-house from two yellow sheets taped together to something worth keeping.</p>
+      <div class="hero-meta">
+        <div class="meta-item">
+          <span class="meta-label">Years active</span>
+          <span class="meta-value">2002 &#8211; 2013</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Children featured</span>
+          <span class="meta-value">10</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Cost reduction</span>
+          <span class="meta-value">~85%</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Heartfelt Thanks</span>
+          <span class="meta-value">Incalculable</span>
+        </div>
       </div>
     </div>
   </section>
