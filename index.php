@@ -855,7 +855,10 @@
   <!-- ── Navigation ──────────────────────────────────────────── -->
   <nav id="site-nav">
     <a href="https://tobyziegler.com" class="nav-back">Toby&#8217;s Study</a>
-    <a href="https://tobyziegler.com" class="nav-home">Toby Ziegler</a>
+    <div style="display:flex;align-items:center;gap:clamp(1rem,2vw,2rem);">
+      <a href="https://projects.tobyziegler.com" class="nav-home">Projects</a>
+      <a href="https://resume.tobyziegler.com" class="nav-home">R&eacute;sum&eacute;</a>
+    </div>
   </nav>
 
   <!-- ── Hero ────────────────────────────────────────────────── -->
@@ -1219,8 +1222,9 @@
       <div class="footer-col">
         <span class="footer-col-label">Other rooms</span>
         <a href="https://tobyziegler.com" class="footer-link">Toby&#8217;s Study</a>
-        <a href="https://dadabase.tobyziegler.com" target="_blank" rel="noopener" class="footer-link">Dad-a-Base</a>
-        <a href="https://resume.tobyziegler.com" target="_blank" rel="noopener" class="footer-link">The R&eacute;sum&eacute;</a>
+        <a href="https://projects.tobyziegler.com" class="footer-link">Projects</a>
+        <a href="https://dadabase.tobyziegler.com" class="footer-link">Dad-a-Base</a>
+        <a href="https://resume.tobyziegler.com" class="footer-link">R&eacute;sum&eacute;</a>
       </div>
 
     </div>
